@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - NexaDriveMotors</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>NexaDriveMotors</h2>
+            </div>
+            <ul class="nav-menu">
+                   <p>&copy; 2024 NexaDriveMotors. All rights reserved.</p>            <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="inventory.html" class="nav-link active">Inventory</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Vehicle Inventory</h1>
+            <p>Discover our extensive collection of premium vehicles</p>
+        </div>
+    </section>
+
+    <!-- Advanced Search and Filter Section -->
+    <section class="inventory-filter">
+        <div class="container">
+            <div class="search-filter">
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <div class="search-input-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search" placeholder="Search by make, model, color, features...">
+                        <div class="search-suggestions" id="search-suggestions"></div>
+                    </div>
+                </div>
+                
+                <!-- Filter Toggle -->
+                <div class="filter-toggle">
+                    <button class="btn btn-outline" onclick="toggleAdvancedFilters()">
+                        <i class="fas fa-filter"></i> Advanced Filters
+                    </button>
+                    <div class="sort-controls">
+                        <label for="sort-by">Sort by:</label>
+                        <select id="sort-by">
+                            <option value="featured">Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="year-new">Year: Newest First</option>
+                            <option value="year-old">Year: Oldest First</option>
+                            <option value="mileage-low">Mileage: Low to High</option>
+                            <option value="mileage-high">Mileage: High to Low</option>
+                        </select>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
+                        <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Advanced Filters (Initially Hidden) -->
+                <div class="advanced-filters" id="advanced-filters">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="make">Make</label>
+                            <select id="make">
+                                <option value="">All Makes</option>
+                                <option value="bmw">BMW</option>
+                                <option value="mercedes">Mercedes-Benz</option>
+                                <option value="audi">Audi</option>
+                                <option value="lexus">Lexus</option>
+                                <option value="honda">Honda</option>
+                                <option value="toyota">Toyota</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="body-type">Body Type</label>
+                            <select id="body-type">
+                                <option value="">All Types</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="coupe">Coupe</option>
+                                <option value="convertible">Convertible</option>
+                                <option value="truck">Truck</option>
+                                <option value="hatchback">Hatchback</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="fuel-type">Fuel Type</label>
+                            <select id="fuel-type">
+                                <option value="">All Fuel Types</option>
+                                <option value="gasoline">Gasoline</option>
+                                <option value="hybrid">Hybrid</option>
+                                <option value="electric">Electric</option>
+                                <option value="diesel">Diesel</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="transmission">Transmission</label>
+                            <select id="transmission">
+                                <option value="">All Transmissions</option>
+                                <option value="automatic">Automatic</option>
+                                <option value="manual">Manual</option>
+                                <option value="cvt">CVT</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label>Price Range</label>
+                            <div class="price-range">
+                                <input type="number" id="price-min" placeholder="Min Price" min="0">
+                                <span>to</span>
+                                <input type="number" id="price-max" placeholder="Max Price" min="0">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Year Range</label>
+                            <div class="year-range">
+                                <select id="year-min">
+                                    <option value="">Min Year</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                                <select id="year-max">
+                                    <option value="">Max Year</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Mileage Range</label>
+                            <div class="mileage-range">
+                                <input type="number" id="mileage-min" placeholder="Min Miles" min="0">
+                                <span>to</span>
+                                <input type="number" id="mileage-max" placeholder="Max Miles" min="0">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label for="color">Color</label>
+                            <select id="color">
+                                <option value="">All Colors</option>
+                                <option value="black">Black</option>
+                                <option value="white">White</option>
+                                <option value="silver">Silver</option>
+                                <option value="blue">Blue</option>
+                                <option value="red">Red</option>
+                                <option value="gray">Gray</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                        <button class="btn btn-outline" onclick="clearFilters()">Clear All</button>
+                        <button class="btn btn-secondary" onclick="saveSearch()">Save Search</button>
+                    </div>
+                </div>
+                
+                <!-- Results Summary -->
+                <div class="results-summary">
+                    <span id="results-count">Showing 6 of 25+ vehicles</span>
+                    <div class="active-filters" id="active-filters"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inventory Grid -->
+    <section class="inventory-grid">
+        <div class="container">
+            <div class="cars-grid" id="cars-grid">
+                <!-- Car 1 -->
+                <div class="car-card" data-make="bmw" data-price="45999" data-year="2023" data-mileage="15000" data-body="suv" data-fuel="gasoline" data-transmission="automatic" data-color="black">
+                    <div class="car-image">
+                        <img src="images/car1.jpg" alt="BMW X5">
+                        <div class="car-price">$45,999</div>
+                        <div class="car-badge">Featured</div>
+                        <div class="car-actions-overlay">
+                            <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-icon" onclick="addToCompare(this)" title="Compare">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareVehicle(this)" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <h3>2023 BMW X5 xDrive40i</h3>
+                        <p class="car-specs">
+                            <span><i class="fas fa-road"></i> 15,000 miles</span>
+                            <span><i class="fas fa-gas-pump"></i> Premium</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-tachometer-alt"></i> AWD</span>
+                        </p>
+                        <div class="car-features">
+                            <span>AWD</span>
+                            <span>Leather</span>
+                            <span>Sunroof</span>
+                            <span>Navigation</span>
+                            <span>Premium Sound</span>
+                        </div>
+                        <div class="car-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(24 reviews)</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-primary" onclick="openVehicleModal('bmw-x5-2023')">View Details</button>
+                            <button class="btn btn-outline" onclick="scheduleTestDrive('bmw-x5-2023')">Test Drive</button>
+                        </div>
+                        <div class="car-financing">
+                            <small>Est. $649/mo at 5.9% APR</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 2 -->
+                <div class="car-card" data-make="mercedes" data-price="38500" data-year="2022" data-mileage="22000" data-body="sedan" data-fuel="gasoline" data-transmission="automatic" data-color="white">
+                    <div class="car-image">
+                        <img src="images/car2.jpg" alt="Mercedes C-Class">
+                        <div class="car-price">$38,500</div>
+                        <div class="car-actions-overlay">
+                            <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-icon" onclick="addToCompare(this)" title="Compare">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareVehicle(this)" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <h3>2022 Mercedes C-Class C300</h3>
+                        <p class="car-specs">
+                            <span><i class="fas fa-road"></i> 22,000 miles</span>
+                            <span><i class="fas fa-gas-pump"></i> Premium</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-tachometer-alt"></i> RWD</span>
+                        </p>
+                        <div class="car-features">
+                            <span>RWD</span>
+                            <span>Leather</span>
+                            <span>Heated Seats</span>
+                            <span>Bluetooth</span>
+                            <span>Backup Camera</span>
+                        </div>
+                        <div class="car-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span>(18 reviews)</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-primary" onclick="openVehicleModal('mercedes-c300-2022')">View Details</button>
+                            <button class="btn btn-outline" onclick="scheduleTestDrive('mercedes-c300-2022')">Test Drive</button>
+                        </div>
+                        <div class="car-financing">
+                            <small>Est. $549/mo at 5.9% APR</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 3 -->
+                <div class="car-card" data-make="audi" data-price="32900" data-year="2023" data-mileage="8500" data-body="sedan" data-fuel="gasoline" data-transmission="automatic" data-color="silver">
+                    <div class="car-image">
+                        <img src="images/car3.jpg" alt="Audi A4">
+                        <div class="car-price">$32,900</div>
+                        <div class="car-actions-overlay">
+                            <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-icon" onclick="addToCompare(this)" title="Compare">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareVehicle(this)" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <h3>2023 Audi A4 Premium</h3>
+                        <p class="car-specs">
+                            <span><i class="fas fa-road"></i> 8,500 miles</span>
+                            <span><i class="fas fa-gas-pump"></i> Premium</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-tachometer-alt"></i> AWD</span>
+                        </p>
+                        <div class="car-features">
+                            <span>AWD</span>
+                            <span>Leather</span>
+                            <span>Virtual Cockpit</span>
+                            <span>Bang & Olufsen</span>
+                            <span>Apple CarPlay</span>
+                        </div>
+                        <div class="car-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(31 reviews)</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-primary" onclick="openVehicleModal('audi-a4-2023')">View Details</button>
+                            <button class="btn btn-outline" onclick="scheduleTestDrive('audi-a4-2023')">Test Drive</button>
+                        </div>
+                        <div class="car-financing">
+                            <small>Est. $469/mo at 5.9% APR</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 4 -->
+                <div class="car-card" data-make="lexus" data-price="29999" data-year="2022" data-mileage="18500" data-body="sedan" data-fuel="gasoline" data-transmission="automatic" data-color="blue">
+                    <div class="car-image">
+                        <img src="images/car4.jpg" alt="Lexus ES">
+                        <div class="car-price">$29,999</div>
+                        <div class="car-actions-overlay">
+                            <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-icon" onclick="addToCompare(this)" title="Compare">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareVehicle(this)" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <h3>2022 Lexus ES 350 Luxury</h3>
+                        <p class="car-specs">
+                            <span><i class="fas fa-road"></i> 18,500 miles</span>
+                            <span><i class="fas fa-gas-pump"></i> Regular</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-tachometer-alt"></i> FWD</span>
+                        </p>
+                        <div class="car-features">
+                            <span>FWD</span>
+                            <span>Leather</span>
+                            <span>Safety 2.0</span>
+                            <span>Mark Levinson</span>
+                            <span>Heated/Cooled Seats</span>
+                        </div>
+                        <div class="car-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(42 reviews)</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-primary" onclick="openVehicleModal('lexus-es350-2022')">View Details</button>
+                            <button class="btn btn-outline" onclick="scheduleTestDrive('lexus-es350-2022')">Test Drive</button>
+                        </div>
+                        <div class="car-financing">
+                            <small>Est. $429/mo at 5.9% APR</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 5 -->
+                <div class="car-card" data-make="honda" data-price="24500" data-year="2023" data-mileage="12000" data-body="sedan" data-fuel="gasoline" data-transmission="cvt" data-color="gray">
+                    <div class="car-image">
+                        <img src="images/car5.jpg" alt="Honda Accord">
+                        <div class="car-price">$24,500</div>
+                        <div class="car-actions-overlay">
+                            <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-icon" onclick="addToCompare(this)" title="Compare">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareVehicle(this)" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <h3>2023 Honda Accord Sport</h3>
+                        <p class="car-specs">
+                            <span><i class="fas fa-road"></i> 12,000 miles</span>
+                            <span><i class="fas fa-gas-pump"></i> Regular</span>
+                            <span><i class="fas fa-cog"></i> CVT</span>
+                            <span><i class="fas fa-tachometer-alt"></i> FWD</span>
+                        </p>
+                        <div class="car-features">
+                            <span>FWD</span>
+                            <span>Sport Seats</span>
+                            <span>Honda Sensing</span>
+                            <span>Apple CarPlay</span>
+                            <span>Wireless Charging</span>
+                        </div>
+                        <div class="car-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span>(15 reviews)</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-primary" onclick="openVehicleModal('honda-accord-2023')">View Details</button>
+                            <button class="btn btn-outline" onclick="scheduleTestDrive('honda-accord-2023')">Test Drive</button>
+                        </div>
+                        <div class="car-financing">
+                            <small>Est. $349/mo at 5.9% APR</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 6 -->
+                <div class="car-card" data-make="toyota" data-price="26999" data-year="2023" data-mileage="9200" data-body="sedan" data-fuel="hybrid" data-transmission="automatic" data-color="red">
+                    <div class="car-image">
+                        <img src="images/car6.jpg" alt="Toyota Camry">
+                        <div class="car-price">$26,999</div>
+                        <div class="car-badge eco">ECO</div>
+                        <div class="car-actions-overlay">
+                            <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn-icon" onclick="addToCompare(this)" title="Compare">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareVehicle(this)" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="car-info">
+                        <h3>2023 Toyota Camry Hybrid XLE</h3>
+                        <p class="car-specs">
+                            <span><i class="fas fa-road"></i> 9,200 miles</span>
+                            <span><i class="fas fa-leaf"></i> Hybrid</span>
+                            <span><i class="fas fa-cog"></i> Automatic</span>
+                            <span><i class="fas fa-tachometer-alt"></i> FWD</span>
+                        </p>
+                        <div class="car-features">
+                            <span>Hybrid</span>
+                            <span>SofTex Seats</span>
+                            <span>Safety 2.0</span>
+                            <span>Wireless Charging</span>
+                            <span>JBL Audio</span>
+                        </div>
+                        <div class="car-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(28 reviews)</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-primary" onclick="openVehicleModal('toyota-camry-2023')">View Details</button>
+                            <button class="btn btn-outline" onclick="scheduleTestDrive('toyota-camry-2023')">Test Drive</button>
+                        </div>
+                        <div class="car-financing">
+                            <small>Est. $389/mo at 5.9% APR</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center" style="margin-top: 3rem;">
+                <button class="btn btn-outline" onclick="loadMoreCars()">Load More Vehicles</button>
+                <p class="load-info">Showing 6 of 25+ vehicles available</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicle Detail Modal -->
+    <div class="modal" id="vehicle-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Vehicle Details</h2>
+                <button class="modal-close" onclick="closeVehicleModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="vehicle-detail-grid">
+                    <div class="vehicle-images">
+                        <div class="main-image">
+                            <img id="modal-main-image" src="" alt="Vehicle">
+                        </div>
+                        <div class="image-thumbnails">
+                            <img src="images/car1.jpg" alt="Exterior" onclick="changeModalImage(this)">
+                            <img src="images/car1-interior.jpg" alt="Interior" onclick="changeModalImage(this)">
+                            <img src="images/car1-engine.jpg" alt="Engine" onclick="changeModalImage(this)">
+                        </div>
+                    </div>
+                    <div class="vehicle-info-detailed">
+                        <div class="price-section">
+                            <div class="price" id="modal-price">$45,999</div>
+                            <div class="finance-estimate">Est. $649/mo</div>
+                        </div>
+                        <div class="quick-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Year</span>
+                                <span class="spec-value" id="modal-year">2023</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Mileage</span>
+                                <span class="spec-value" id="modal-mileage">15,000 mi</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Engine</span>
+                                <span class="spec-value" id="modal-engine">3.0L Turbo</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Transmission</span>
+                                <span class="spec-value" id="modal-transmission">Automatic</span>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-large">Schedule Test Drive</button>
+                            <button class="btn btn-outline btn-large">Get Financing</button>
+                            <button class="btn btn-secondary">Calculate Payment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="vehicle-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+                        <button class="tab-btn" onclick="showTab('features')">Features</button>
+                        <button class="tab-btn" onclick="showTab('specifications')">Specifications</button>
+                        <button class="tab-btn" onclick="showTab('financing')">Financing</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-panel active" id="overview-tab">
+                            <h3>Vehicle Overview</h3>
+                            <p>This premium vehicle offers exceptional performance, luxury, and reliability. Perfect for those who demand the best in automotive excellence.</p>
+                        </div>
+                        <div class="tab-panel" id="features-tab">
+                            <h3>Key Features</h3>
+                            <div class="features-list">
+                                <div class="feature-category">
+                                    <h4>Exterior</h4>
+                                    <ul>
+                                        <li>LED Headlights</li>
+                                        <li>Panoramic Sunroof</li>
+                                        <li>20" Alloy Wheels</li>
+                                        <li>Power Tailgate</li>
+                                    </ul>
+                                </div>
+                                <div class="feature-category">
+                                    <h4>Interior</h4>
+                                    <ul>
+                                        <li>Leather Seats</li>
+                                        <li>Heated/Cooled Seats</li>
+                                        <li>Premium Sound System</li>
+                                        <li>Navigation System</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-panel" id="specifications-tab">
+                            <h3>Technical Specifications</h3>
+                            <div class="specs-grid">
+                                <div class="spec-row">
+                                    <span>Engine:</span>
+                                    <span>3.0L Twin-Turbo V6</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span>Horsepower:</span>
+                                    <span>335 HP</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span>Fuel Economy:</span>
+                                    <span>22/29 MPG</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span>Drive Type:</span>
+                                    <span>All-Wheel Drive</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-panel" id="financing-tab">
+                            <h3>Financing Options</h3>
+                            <div class="financing-calculator">
+                                <div class="calc-row">
+                                    <label>Loan Amount:</label>
+                                    <input type="number" value="45999" id="loan-amount">
+                                </div>
+                                <div class="calc-row">
+                                    <label>Down Payment:</label>
+                                    <input type="number" value="5000" id="down-payment">
+                                </div>
+                                <div class="calc-row">
+                                    <label>Interest Rate:</label>
+                                    <input type="number" value="5.9" step="0.1" id="interest-rate">
+                                </div>
+                                <div class="calc-row">
+                                    <label>Loan Term:</label>
+                                    <select id="loan-term">
+                                        <option value="36">36 months</option>
+                                        <option value="48">48 months</option>
+                                        <option value="60" selected>60 months</option>
+                                        <option value="72">72 months</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary" onclick="calculatePayment()">Calculate Payment</button>
+                                <div class="payment-result" id="payment-result"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Didn't Find What You're Looking For?</h2>
+                <p>Contact our team and we'll help you find the perfect vehicle for your needs.</p>
+                <a href="contact.html" class="btn btn-white">Contact Our Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NexaDriveMotors</h3>
+                    <p>Your trusted partner in finding the perfect vehicle. Quality, reliability, and exceptional service.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="inventory.html">Inventory</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Financing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Vehicle Sales</a></li>
+                        <li><a href="#">Trade-In</a></li>
+                        <li><a href="#">Financing</a></li>
+                        <li><a href="#">Warranty</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@nexadrivemotors.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Auto Plaza Dr, City, State 12345</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NexaMotors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('make').value = '';
+            document.getElementById('price-max').value = '';
+            document.getElementById('year').value = '';
+            
+            // Show all cars
+            document.querySelectorAll('.car-card').forEach(card => {
+                card.style.display = 'block';
+            });
+        }
+
+        // Load more cars (simulated)
+        function loadMoreCars() {
+            const button = event.target;
+            button.textContent = 'Loading...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.textContent = 'All Vehicles Loaded';
+                button.style.opacity = '0.6';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
