@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page - Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .test-section { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 NexaDriveMotors Debug Test</h1>
+    
+    <div class="test-section">
+        <h2>Server Status</h2>
+        <div id="server-status">Testing...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>API Health Check</h2>
+        <div id="health-status">Testing...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Vehicles API</h2>
+        <div id="vehicles-status">Testing...</div>
+        <pre id="vehicles-data"></pre>
+    </div>
+
+    <div class="test-section">
+        <h2>JavaScript Errors</h2>
+        <div id="errors-log" class="info">No errors detected yet</div>
+    </div>
+
+    <div class="test-section">
+        <h2>Quick Links</h2>
+        <ul>
+            <li><a href="/">Homepage</a></li>
+            <li><a href="/inventory.html">Inventory</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+    </div>
+
+    <script>
+        // Capture all errors
+        const errors = [];
+        window.addEventListener('error', (e) => {
+            errors.push(`${e.message} at ${e.filename}:${e.lineno}`);
+            document.getElementById('errors-log').innerHTML = 
+                '<span class="error">Errors detected:</span><br>' + 
+                errors.map(err => `❌ ${err}`).join('<br>');
+        });
+
+        // Test server connection
+        fetch('/api/health')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('server-status').innerHTML = 
+                    `<span class="success">✅ Server is running</span>`;
+                document.getElementById('health-status').innerHTML = 
+                    `<span class="success">✅ Health check passed</span><br><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            })
+            .catch(err => {
+                document.getElementById('server-status').innerHTML = 
+                    `<span class="error">❌ Server not responding</span>`;
+                document.getElementById('health-status').innerHTML = 
+                    `<span class="error">❌ Error: ${err.message}</span>`;
+            });
+
+        // Test vehicles API
+        fetch('/api/vehicles')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('vehicles-status').innerHTML = 
+                    `<span class="success">✅ Loaded ${data.length} vehicles</span>`;
+                document.getElementById('vehicles-data').textContent = 
+                    JSON.stringify(data, null, 2);
+            })
+            .catch(err => {
+                document.getElementById('vehicles-status').innerHTML = 
+                    `<span class="error">❌ Error loading vehicles: ${err.message}</span>`;
+            });
+
+        // Log page load
+        console.log('Test page loaded successfully');
+        console.log('Current URL:', window.location.href);
+        console.log('Document ready state:', document.readyState);
+    </script>
+</body>
+</html>

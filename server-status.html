@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status - NexaDriveMotors</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { color: #333; margin-bottom: 20px; }
+        .status { 
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        .success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 2px solid #bee5eb; }
+        .steps { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .steps h3 { margin-bottom: 15px; color: #333; }
+        .steps ol { margin-left: 20px; }
+        .steps li { margin: 10px 0; line-height: 1.6; }
+        code { 
+            background: #e9ecef; 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        .btn { 
+            display: inline-block;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn:hover { background: #764ba2; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 NexaDriveMotors Server</h1>
+        
+        <div id="status" class="status info">
+            Checking server status...
+        </div>
+
+        <div class="steps">
+            <h3>🚀 How to Start the Server:</h3>
+            <ol>
+                <li><strong>Easy Method:</strong> Right-click <code>START-SERVER.ps1</code> → "Run with PowerShell"</li>
+                <li><strong>Or use:</strong> Double-click <code>START-SERVER.bat</code></li>
+                <li><strong>Manual:</strong> Open PowerShell in <code>server</code> folder, run: <code>node server.js</code></li>
+            </ol>
+        </div>
+
+        <div class="steps">
+            <h3>🔑 Admin Credentials:</h3>
+            <ul>
+                <li><strong>Password:</strong> <code>admin123</code></li>
+            </ul>
+        </div>
+
+        <div>
+            <a href="/inventory.html" class="btn">📋 View Inventory</a>
+            <a href="/admin.html" class="btn">⚙️ Admin Panel</a>
+            <a href="/contact.html" class="btn">📧 Contact</a>
+        </div>
+    </div>
+
+    <script>
+        async function checkServer() {
+            const statusEl = document.getElementById('status');
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                if (data.status === 'ok') {
+                    statusEl.className = 'status success';
+                    statusEl.innerHTML = '✅ Server is running! All systems operational.';
+                }
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.innerHTML = '❌ Server is not running. Please start it using one of the methods below.';
+            }
+        }
+
+        checkServer();
+        setInterval(checkServer, 5000);
+    </script>
+</body>
+</html>

@@ -47,8 +47,8 @@
                 <a href="contact.html" class="btn btn-secondary">Contact Us</a>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="images/hero-car.jpg" alt="Premium Car" id="hero-car">
+        <div class="hero-image hero-professional" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); display: flex; align-items: center; justify-content: center; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="color: white; font-size: 2.5rem; font-weight: 700; text-shadow: 2px 2px 12px rgba(0,0,0,0.5); letter-spacing: 2px;">PREMIUM VEHICLES</div>
         </div>
     </section>
 
@@ -95,8 +95,8 @@
             <h2>Featured Vehicles</h2>
             <div class="cars-grid">
                 <div class="car-card">
-                    <div class="car-image">
-                        <img src="images/car1.jpg" alt="BMW X5">
+                    <div class="car-image vehicle-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="brand-badge">BMW</div>
                         <div class="car-price">$45,999</div>
                     </div>
                     <div class="car-info">
@@ -110,8 +110,8 @@
                     </div>
                 </div>
                 <div class="car-card">
-                    <div class="car-image">
-                        <img src="images/car2.jpg" alt="Mercedes C-Class">
+                    <div class="car-image vehicle-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="brand-badge">MERCEDES</div>
                         <div class="car-price">$38,500</div>
                     </div>
                     <div class="car-info">
@@ -125,8 +125,8 @@
                     </div>
                 </div>
                 <div class="car-card">
-                    <div class="car-image">
-                        <img src="images/car3.jpg" alt="Audi A4">
+                    <div class="car-image vehicle-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="brand-badge">AUDI</div>
                         <div class="car-price">$32,900</div>
                     </div>
                     <div class="car-info">
@@ -262,19 +262,27 @@
                     <h3>Why Trust NexaMotors?</h3>
                     <div class="badges-container">
                         <div class="badge">
-                            <img src="images/badge-certified.png" alt="Certified Dealer">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                <i class="fas fa-certificate" style="font-size: 1.8rem; color: white;"></i>
+                            </div>
                             <span>Certified Dealer</span>
                         </div>
                         <div class="badge">
-                            <img src="images/badge-warranty.png" alt="Extended Warranty">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #27ae60 0%, #229954 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                <i class="fas fa-shield-alt" style="font-size: 1.8rem; color: white;"></i>
+                            </div>
                             <span>Extended Warranty</span>
                         </div>
                         <div class="badge">
-                            <img src="images/badge-financing.png" alt="Best Financing">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                <i class="fas fa-dollar-sign" style="font-size: 1.8rem; color: white;"></i>
+                            </div>
                             <span>Best Financing</span>
                         </div>
                         <div class="badge">
-                            <img src="images/badge-satisfaction.png" alt="100% Satisfaction">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                <i class="fas fa-thumbs-up" style="font-size: 1.8rem; color: white;"></i>
+                            </div>
                             <span>100% Satisfaction</span>
                         </div>
                     </div>
@@ -374,10 +382,10 @@
                     <h3>NexaDriveMotors</h3>
                     <p>Your trusted partner in finding the perfect vehicle. Quality, reliability, and exceptional service.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener"><i class="fab fa-facebook"></i></a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -386,24 +394,24 @@
                         <li><a href="inventory.html">Inventory</a></li>
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="#">Financing</a></li>
+                        <li><a href="contact.html#financing">Financing</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="#">Vehicle Sales</a></li>
-                        <li><a href="#">Trade-In</a></li>
-                        <li><a href="#">Financing</a></li>
-                        <li><a href="#">Warranty</a></li>
+                        <li><a href="inventory.html">Vehicle Sales</a></li>
+                        <li><a href="contact.html">Trade-In</a></li>
+                        <li><a href="contact.html#financing">Financing</a></li>
+                        <li><a href="about.html">Warranty</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Contact Info</h4>
                     <ul>
-                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
-                        <li><i class="fas fa-envelope"></i> info@nexadrivemotors.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Auto Plaza Dr, City, State 12345</li>
+                        <li><a href="tel:+15551234567"><i class="fas fa-phone"></i> (555) 123-4567</a></li>
+                        <li><a href="mailto:info@nexadrivemotors.com"><i class="fas fa-envelope"></i> info@nexadrivemotors.com</a></li>
+                        <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> 123 Auto Plaza Dr, City, State 12345</a></li>
                     </ul>
                 </div>
             </div>

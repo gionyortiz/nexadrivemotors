@@ -51,69 +51,46 @@ nexadrivemotors/
 ```html
 <div class="car-card">
     <div class="car-image">
-        <img src="images/car1.jpg" alt="Vehicle Name">
-        <div class="car-price">$XX,XXX</div>
-        <div class="car-badge">Featured</div> <!-- Optional -->
-    </div>
-    <div class="car-info">
-        <h3>Year Make Model</h3>
-        <p class="car-specs"><!-- Mileage, fuel, transmission --></p>
-        <div class="car-features"><!-- Feature tags --></div>
-        <div class="car-actions"><!-- Action buttons --></div>
-    </div>
-</div>
-```
+        ## Copilot / AI agent instructions — NexaDriveMotors (concise)
 
-### Filter System Implementation
-- **Data attributes** or text content parsing for filtering
-- **Event listeners** on all filter inputs for real-time updates
-- **Display toggling** using `style.display` property
-- **Clear filters** functionality resets all inputs and shows all items
+        Purpose: give AI coding agents the exact, discoverable facts needed to modify and extend this static website quickly.
 
-### Form Handling Pattern
-```javascript
-// Contact form with validation and feedback
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Validation logic
-    // showMessage() for user feedback
-    // Form reset on success
-});
-```
+        Quick facts
+        - Static, multi-page site (no build): `index.html`, `inventory.html`, `about.html`, `contact.html`.
+        - Styling: `css/styles.css` (mobile-first, Grid/Flexbox, CSS variables in `:root`).
+        - Behavior: `js/script.js` (vanilla ES6 — mobile nav, intersection observer, inventory filtering).
+        - Assets: `images/` for vehicle photos; external fonts/icons via Google Fonts and Font Awesome.
 
-## Development Workflows
+        Key patterns & examples (do not invent frameworks)
+        - Vehicle cards live in `inventory.html`. Use data attributes for filters. Example:
+            <div class="car-card" data-make="toyota" data-price="23000" data-year="2019">…</div>
+        - Filtering relies on reading data attributes or text content and toggling `style.display`. Look for filter logic in `js/script.js`.
+        - Mobile navigation: toggle class on `.nav-menu` in `js/script.js` — keep markup and ARIA attributes intact.
 
-### Adding New Vehicles
-1. Add new car card HTML to `inventory.html`
-2. Include proper data attributes for filtering
-3. Add corresponding image to `/images/` directory
-4. Test filtering functionality works correctly
+        Developer workflows (discoverable and repeatable)
+        - No build step: open `index.html` in a browser for quick checks.
+        - Use a local static server for proper relative-paths (recommended):
+            - VS Code Live Server extension, or
+            - PowerShell: `python -m http.server 8000` from repo root.
+        - Debugging: use browser DevTools console; `js/script.js` contains main entry points.
 
-### Styling New Components
-1. Follow existing naming conventions (BEM-like)
-2. Use CSS Grid/Flexbox for layouts
-3. Include hover states and transitions
-4. Add responsive breakpoints for mobile
+        Conventions & constraints
+        - Keep vanilla JS — do not add frameworks or transpilers unless requested.
+        - Follow existing BEM-like class names (`.nav-menu`, `.car-card`, `.car-image`, `.car-info`).
+        - Preserve accessibility: include `alt` text on images and keep form labels/ARIA attributes.
+        - Contact form is frontend-only (shows success message; no backend integration).
 
-### Testing Checklist
-- **Responsive design** at 320px, 768px, 1024px, 1200px+ widths
-- **Mobile navigation** toggle functionality
-- **Form validation** for all required fields
-- **Filter functionality** with various combinations
-- **Cross-browser compatibility** (Chrome, Firefox, Safari, Edge)
+        Files to check first
+        - `inventory.html` — vehicle card markup and data-* attributes
+        - `js/script.js` — filtering, nav toggle, intersection observer
+        - `css/styles.css` — variables in `:root`, breakpoints at ~768px and ~480px
+        - `index.html` / `contact.html` — hero image cycling and contact form handling
 
-## External Dependencies
-- **Google Fonts**: Inter font family (300-700 weights)
-- **Font Awesome**: v6.0.0 for icons
-- **No JavaScript frameworks** - vanilla JS only
+        Small edits examples
+        - Add a new vehicle: copy an existing `.car-card` in `inventory.html`, add the photo to `images/`, set `data-*` attrs and test the filter UI.
 
-## Important Notes
-- **Form submissions**: Contact form shows success message but doesn't actually submit
-- **Map integration**: Placeholder for Google Maps (not implemented)
-- **No backend**: Static website only, no server-side functionality
+        Gotchas
+        - Image paths: use `images/<name>` (case-sensitive on hosted servers).
+        - Filtering performance: `querySelectorAll` over many nodes is acceptable here; keep logic simple and DOM-access minimal.
 
-## Common Customization Tasks
-- **Color scheme**: Update CSS custom properties in `:root`
-- **Navigation**: Modify `.nav-menu` structure and corresponding JavaScript
-- **Content**: Update text content directly in HTML files
-- **Animations**: Adjust CSS animations and Intersection Observer thresholds
+        If anything above is unclear or you want a different level of detail (file-by-file notes, test snippets, or example PRs), tell me what to expand.

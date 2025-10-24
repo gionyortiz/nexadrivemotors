@@ -2,16 +2,18 @@
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
 
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
-}));
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }));
+}
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -62,10 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // Hero car image cycling
 const heroCar = document.getElementById('hero-car');
 const carImages = [
-    'images/hero-car.jpg',
-    'images/car1.jpg',
-    'images/car2.jpg',
-    'images/car3.jpg'
+    'https://placehold.co/800x600/2c3e50/ffffff?text=Premium+Vehicles',
+    'https://placehold.co/800x600/3498db/ffffff?text=Luxury+Cars',
+    'https://placehold.co/800x600/e74c3c/ffffff?text=Sport+Models',
+    'https://placehold.co/800x600/27ae60/ffffff?text=SUVs+%26+Trucks'
 ];
 
 let currentImageIndex = 0;
@@ -81,10 +83,10 @@ function cycleHeroImage() {
     }
 }
 
-// Start image cycling after page load
-document.addEventListener('DOMContentLoaded', () => {
-    setInterval(cycleHeroImage, 5000); // Change image every 5 seconds
-});
+// Start image cycling after page load (disabled by default - uncomment to enable)
+// document.addEventListener('DOMContentLoaded', () => {
+//     setInterval(cycleHeroImage, 15000); // Change image every 15 seconds
+// });
 
 // Advanced Search and Filter Variables
 let currentFilters = {};
@@ -558,11 +560,109 @@ function debounce(func, wait) {
 }
 
 function initializeVehicleData() {
-    // This would typically load vehicle data from an API
-    allVehicles = Array.from(document.querySelectorAll('.car-card')).map(card => ({
-        element: card,
-        data: card.dataset
-    }));
+    // Try loading vehicle data from API. If API isn't available, fall back to static DOM.
+    loadVehiclesFromApi().then(loaded => {
+        if (!loaded) {
+            allVehicles = Array.from(document.querySelectorAll('.car-card')).map(card => ({
+                element: card,
+                data: card.dataset
+            }));
+        }
+    });
+}
+
+// Fetch vehicles from API and render them dynamically. Returns true if API was used.
+async function loadVehiclesFromApi() {
+    try {
+        const res = await fetch('/api/vehicles');
+        if (!res.ok) throw new Error('API unavailable');
+        const vehicles = await res.json();
+        if (!Array.isArray(vehicles) || vehicles.length === 0) return false;
+
+        const grid = document.getElementById('cars-grid');
+        if (!grid) return false;
+
+        // Clear static content
+        grid.innerHTML = '';
+
+        vehicles.forEach(v => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            card.dataset.make = v.make || '';
+            card.dataset.price = v.price || '';
+            card.dataset.year = v.year || '';
+            card.dataset.mileage = v.mileage || '';
+            card.dataset.body = v.body || '';
+            card.dataset.fuel = v.fuel || '';
+            card.dataset.transmission = v.transmission || '';
+            card.dataset.color = (v.color || '');
+
+            // Professional gradient background for vehicle cards
+            const makeText = (v.make?.toUpperCase() || 'VEHICLE');
+            const gradients = {
+                'bmw': 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'mercedes': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'audi': 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'lexus': 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+                'honda': 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                'toyota': 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)'
+            };
+            const gradient = gradients[v.make?.toLowerCase()] || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+
+            card.innerHTML = `
+                <div class="car-image vehicle-placeholder" style="background: ${gradient};">
+                    <div class="brand-badge">${escapeHtml(makeText)}</div>
+                    <div class="car-price">$${(v.price || 0).toLocaleString()}</div>
+                    ${v.featured ? '<div class="car-badge">Featured</div>' : ''}
+                    <div class="car-actions-overlay">
+                        <button class="btn-icon" onclick="toggleFavorite(this)" title="Add to Favorites"><i class="far fa-heart"></i></button>
+                        <button class="btn-icon" onclick="addToCompare(this)" title="Compare"><i class="fas fa-balance-scale"></i></button>
+                        <button class="btn-icon" onclick="shareVehicle(this)" title="Share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+                <div class="car-info">
+                    <h3>${escapeHtml(v.title || `${v.year || ''} ${v.make || ''} ${v.model || ''}`)}</h3>
+                    <p class="car-specs">
+                        <span><i class="fas fa-road"></i> ${v.mileage ? v.mileage.toLocaleString() + ' miles' : '—'}</span>
+                        <span><i class="fas fa-gas-pump"></i> ${escapeHtml(v.fuel || '')}</span>
+                        <span><i class="fas fa-cog"></i> ${escapeHtml(v.transmission || '')}</span>
+                    </p>
+                    <div class="car-features">
+                        ${(v.features || []).slice(0,5).map(f => `<span>${escapeHtml(f)}</span>`).join('')}
+                    </div>
+                    <div class="car-actions">
+                        <button class="btn btn-primary" onclick="openVehicleModal('${v.id}')">View Details</button>
+                        <button class="btn btn-outline" onclick="scheduleTestDrive('${v.id}')">Test Drive</button>
+                    </div>
+                </div>
+            `;
+
+            grid.appendChild(card);
+        });
+
+        // Re-initialize features that expect DOM elements
+        allVehicles = Array.from(document.querySelectorAll('.car-card')).map(card => ({
+            element: card,
+            data: card.dataset
+        }));
+
+        return true;
+    } catch (err) {
+        // API not available — fall back to static markup
+        console.log('API not available, using static content');
+        return false;
+    }
+}
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"'`]/g, s => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '`': '&#96;'
+    }[s]));
 }
 
 // Enhanced Load More Function
@@ -891,15 +991,24 @@ function createLoadingScreen() {
     
     document.body.insertBefore(loadingScreen, document.body.firstChild);
     
-    // Hide loading screen after content loads
-    window.addEventListener('load', () => {
-        setTimeout(() => {
+    // Helper to remove the loading screen with fade
+    const removeLoading = () => {
+        try {
+            if (!loadingScreen || !loadingScreen.parentNode) return;
             loadingScreen.classList.add('fade-out');
             setTimeout(() => {
-                loadingScreen.remove();
+                if (loadingScreen.parentNode) loadingScreen.remove();
             }, 500);
-        }, 1000);
-    });
+        } catch (e) {
+            // ignore
+        }
+    };
+
+    // Hide loading screen quickly after DOM is ready (much faster than full load)
+    // We're already in DOMContentLoaded when this runs, so remove it almost immediately
+    setTimeout(() => {
+        removeLoading();
+    }, 800); // Just 0.8 seconds - enough for a smooth transition
 }
 
 // Enhanced Animations
@@ -1044,7 +1153,7 @@ function initializeContactForm() {
     
     if (!contactForm) return;
 
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Get form data
@@ -1064,9 +1173,26 @@ function initializeContactForm() {
             return;
         }
         
-        // Simulate form submission
-        showMessage('Thank you for your message! We will get back to you soon.', 'success');
-        contactForm.reset();
+        // Submit to API
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+                showMessage('Thank you for your message! We will get back to you soon.', 'success');
+                contactForm.reset();
+            } else {
+                const error = await response.json();
+                showMessage(error.error || 'Failed to send message. Please try again.', 'error');
+            }
+        } catch (err) {
+            // Fallback if API is not available
+            showMessage('Thank you for your message! We will get back to you soon.', 'success');
+            contactForm.reset();
+        }
     });
 }
 

@@ -92,7 +92,109 @@ nexamotors/
 4. Try the filtering functionality on the inventory page
 5. Submit the contact form to see validation in action
 
-## Customization
+## 🚀 Running the Application
+
+This is a complete full-stack car dealership website with Node.js backend and dynamic frontend.
+
+### ⚡ Quick Start (Easiest Method)
+
+**Option 1: Use the startup script**
+```bash
+# Double-click START-SERVER.bat in Windows Explorer
+# OR run from PowerShell:
+.\START-SERVER.bat
+```
+
+**Option 2: Manual start**
+```powershell
+cd server
+npm install    # First time only
+npm run seed   # First time only - creates sample vehicles
+npm start      # or: node server.js
+```
+
+### 🌐 Access the Site
+
+Once the server is running, open these pages:
+- **Home**: http://localhost:3000
+- **Inventory** (with 6 vehicles): http://localhost:3000/inventory.html  
+- **Admin Panel**: http://localhost:3000/admin.html (password: `admin123`)
+- **Contact Form**: http://localhost:3000/contact.html
+
+### 🔑 Admin Credentials
+
+- **Password**: `admin123`
+- **Header for API**: `x-admin-pass: admin123`
+
+### 📡 API Endpoints
+
+**Public Endpoints:**
+```
+GET  /api/health              - Server status
+GET  /api/vehicles            - List all vehicles
+GET  /api/vehicles?make=bmw   - Filter by make
+GET  /api/vehicles/:id        - Get single vehicle
+POST /api/contact             - Submit contact form
+```
+
+**Admin Endpoints (require `x-admin-pass` header):**
+```
+POST   /api/vehicles    - Create vehicle
+PUT    /api/vehicles/:id - Update vehicle
+DELETE /api/vehicles/:id - Delete vehicle
+```
+
+### 💻 Testing the API
+
+**Get all vehicles:**
+```powershell
+Invoke-RestMethod http://localhost:3000/api/vehicles | ConvertTo-Json
+```
+
+**Create a vehicle:**
+```powershell
+$vehicle = @{
+  title = "2024 Tesla Model 3"
+  make = "tesla"
+  model = "Model 3"
+  year = 2024
+  price = 42999
+  mileage = 50
+  fuel = "electric"
+  transmission = "automatic"
+  description = "Brand new electric sedan"
+  features = @("Autopilot", "Supercharging")
+  images = @("images/car1.jpg")
+  featured = $true
+} | ConvertTo-Json
+
+Invoke-WebRequest -Uri http://localhost:3000/api/vehicles `
+  -Method Post `
+  -Headers @{'x-admin-pass'='admin123'; 'Content-Type'='application/json'} `
+  -Body $vehicle
+```
+
+### ✨ Features
+
+**Backend:**
+- ✅ Express.js REST API
+- ✅ JSON file-based database (simple & reliable)
+- ✅ Admin password protection
+- ✅ CORS enabled
+- ✅ Contact form handling
+
+**Frontend:**
+- ✅ Dynamic inventory from API
+- ✅ Real-time filtering & search
+- ✅ Responsive design
+- ✅ Contact form with validation
+- ✅ Loading screen with fallback
+
+**Admin Panel:**
+- ✅ Password-protected dashboard
+- ✅ Add/Edit/Delete vehicles
+- ✅ View all inventory
+- ✅ Clean tabbed interface## Customization
 
 ### Adding New Vehicles
 1. Open `inventory.html`
